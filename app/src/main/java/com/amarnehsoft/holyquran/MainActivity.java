@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.amarnehsoft.holyquran.base.InjectedActivity;
 import com.amarnehsoft.holyquran.model.Aya;
+import com.amarnehsoft.holyquran.model.TafseerAyah;
 
 import java.util.HashMap;
 import java.util.IllegalFormatCodePointException;
@@ -36,12 +37,13 @@ public class MainActivity extends InjectedActivity {
     private int number = 1;
 
     private Aya nextAya, currentAya;
-
+    private TafseerAyah nextTafsser, currentTafseer;
     private TextView txtView;
     private Button btnNext;
-    private TextView txtBottom, txtNumberInSurah, txtSurah, txtJuz;
+    private TextView txtBottom, txtNumberInSurah, txtSurah, txtJuz, txtTafseer;
 
     private boolean firstLunch = true;
+    private boolean firstLunchTafseer = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,16 @@ public class MainActivity extends InjectedActivity {
         txtNumberInSurah = findViewById(R.id.txtNumberInSurah);
         txtSurah = findViewById(R.id.txtSurah);
         txtJuz = findViewById(R.id.txtJuz);
+        txtTafseer = findViewById(R.id.txtTafseer);
 
-        number = spController.getAyaNumber();
+        findViewById(R.id.ayaLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtTafseer.setVisibility(txtTafseer.getVisibility()==View.VISIBLE ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        number = spController.getAyaNumber()-1;
         if (number < 1)
             number = 1;
 
@@ -64,8 +74,9 @@ public class MainActivity extends InjectedActivity {
             @Override
             public void onClick(View view) {
                 currentAya = nextAya;
+                currentTafseer = nextTafsser;
                 updateUI();
-
+                updateTafseerUI();
                 txtBottom.setText("");
                 number++;
                 fetchAyah();
@@ -78,6 +89,10 @@ public class MainActivity extends InjectedActivity {
         txtNumberInSurah.setText(String.valueOf(currentAya.getNumberInSurah()));
         txtSurah.setText(currentAya.getSurah().getName());
         txtJuz.setText(getString(R.string.juz) + " " + String.valueOf(currentAya.getJuz()));
+    }
+
+    private void updateTafseerUI(){
+        txtTafseer.setText(currentTafseer != null ? currentTafseer.getText() : "");
     }
 
     private void fetchAyah(){
@@ -103,6 +118,36 @@ public class MainActivity extends InjectedActivity {
                                 number++;
                                 fetchAyah();
                             }
+
+                            repo.tafseerAyah(aya)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new SingleObserver<TafseerAyah>() {
+                                        @Override
+                                        public void onSubscribe(Disposable d) {
+
+                                        }
+
+                                        @Override
+                                        public void onSuccess(TafseerAyah tafseerAyah) {
+                                            if (oldNumber == number){
+                                                nextTafsser = tafseerAyah;
+                                                if (firstLunchTafseer){
+                                                    firstLunchTafseer =false;
+                                                    currentTafseer = tafseerAyah;
+                                                    updateTafseerUI();
+                                                }
+                                            }else if (oldNumber == number-1){
+                                                currentTafseer = tafseerAyah;
+                                                updateTafseerUI();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            txtTafseer.setText(e.getMessage());
+                                        }
+                                    });
                         }else if (oldNumber == number-1){
                             currentAya = aya;
                             updateUI();
@@ -116,5 +161,6 @@ public class MainActivity extends InjectedActivity {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+
     }
 }

@@ -1,6 +1,9 @@
 package com.amarnehsoft.holyquran.network;
 
 import com.amarnehsoft.holyquran.base.App;
+import com.amarnehsoft.holyquran.di.Quran;
+import com.amarnehsoft.holyquran.di.Tafseer;
+import com.amarnehsoft.holyquran.network.tafseer.TafseerApi;
 import com.squareup.moshi.Moshi;
 
 import javax.inject.Singleton;
@@ -35,8 +38,20 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
-    public Retrofit provideRetrofit(OkHttpClient httpClient, Moshi moshi, String baseUrl){
+    @Quran
+    public Retrofit provideRetrofit(OkHttpClient httpClient, Moshi moshi, @Quran String baseUrl){
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(httpClient)
+//                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+    }
+
+    @Provides
+    @Tafseer
+    public Retrofit provideTafseerRetrofit(OkHttpClient httpClient, Moshi moshi, @Tafseer String baseUrl){
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(httpClient)
@@ -48,15 +63,28 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public ApiService provideAppService(Retrofit retrofit){
+    public ApiService provideAppService(@Quran Retrofit retrofit){
         return retrofit.create(ApiService.class);
     }
 
     @Provides
     @Singleton
+    public TafseerApi provideTafseerApi(@Tafseer Retrofit retrofit){
+        return retrofit.create(TafseerApi.class);
+    }
+
+    @Provides
+    @Quran
     public String provideBaseUrl(){
         return ServiceConstants.baseUrl;
     }
+
+    @Provides
+    @Tafseer
+    public String provideBaseUrlForTafseer(){
+        return ServiceConstants.baseUrlForTafseer;
+    }
+
 
     @Provides
     @Singleton
