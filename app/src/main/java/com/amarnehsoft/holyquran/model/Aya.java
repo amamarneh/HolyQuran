@@ -1,7 +1,17 @@
 package com.amarnehsoft.holyquran.model;
 
-public class Aya {
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Entity
+public class Aya{
+    @PrimaryKey
     private int number;
+
     private String text;
     private int numberInSurah;
     private int juz;
@@ -9,8 +19,16 @@ public class Aya {
     private int page;
     private int ruku;
     private int hizbQuarter;
-    private boolean sajda;
+    private String sajda;
+
+    @Ignore
     private Surah surah;
+
+    private int surahNumber;
+    private String audio;
+
+    private String tafseer;
+    private String translation;
 
     public int getNumber() {
         return number;
@@ -76,11 +94,11 @@ public class Aya {
         this.hizbQuarter = hizbQuarter;
     }
 
-    public boolean isSajda() {
+    public String getSajda() {
         return sajda;
     }
 
-    public void setSajda(boolean sajda) {
+    public void setSajda(String sajda) {
         this.sajda = sajda;
     }
 
@@ -90,5 +108,38 @@ public class Aya {
 
     public void setSurah(Surah surah) {
         this.surah = surah;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
+
+    public String getTafseer() {
+        return tafseer;
+    }
+
+    public void setTafseer(String tafseer) {
+        this.tafseer = tafseer;
+    }
+
+    public String getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
+
+    public int getSurahNumber() {
+        return surahNumber;
+    }
+
+    public void setSurahNumber(int surahNumber) {
+        this.surahNumber = surahNumber;
     }
 }

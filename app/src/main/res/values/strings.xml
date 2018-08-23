@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">HolyQuran</string>
     <string name="juz">Juz</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ayah">Ayah</string>
+    <string name="text">Text</string>
+    <string name="tafseer">Tafseer</string>
+    <string name="translaion">Translation</string>
 </resources>

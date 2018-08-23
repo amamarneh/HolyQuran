@@ -3,6 +3,10 @@ package com.amarnehsoft.holyquran.base;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.amarnehsoft.holyquran.utils.ResourceProvider;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -27,5 +31,11 @@ public class AppModule {
     @Provides
     SharedPreferences provideSharedPrefs(Context context){
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    ResourceProvider proveideResourceProvider(Context context){
+        return new ResourceProvider(context);
     }
 }

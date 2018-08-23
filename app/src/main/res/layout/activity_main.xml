@@ -1,102 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/txtSurah"
-        android:text="surah"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.amarnehsoft.holyquran.main.MainActivityViewModel" />
 
-    <TextView
-        android:id="@+id/txtJuz"
-        android:text="juz"
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <import type="android.view.View" />
 
-    <android.support.v7.widget.CardView
+        <import type="com.amarnehsoft.holyquran.R" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:layout_centerInParent="true"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtSurah"
+            android:text="@{viewmodel.txtSurah}"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:onClick="@{()-> viewmodel.showChaptersList()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
-            android:id="@+id/ayaLayout"
-            android:orientation="vertical"
+            android:id="@+id/ayaNumberLayout"
+            android:onClick="@{()-> viewmodel.showVersesList()}"
             android:gravity="center"
-            android:background="?attr/selectableItemBackground"
-            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txtView"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
-                android:gravity="center"
-                android:textStyle="italic"
-                android:textSize="20sp"
-                android:textColor="#000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:text="@string/ayah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/txtNumberInSurah"
-                android:text="0"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/txtView"
+                android:text="@{viewmodel.txtAyahNumber}"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#a00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/txtTafseer"
-                android:textColor="#067"
-                android:textAlignment="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
+        <RadioGroup
+            android:orientation="horizontal"
+            android:layout_below="@id/ayaNumberLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:weightSum="3"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:text="@string/text"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:checked="@{!viewmodel.showTafseer &amp;&amp; !viewmodel.showTranslation}"
+                android:onClick="@{()-> viewmodel.updateRadioButtons(0)}"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:layout_marginStart="5dp"
+                android:text="@string/tafseer"
+                android:layout_weight="1"
+                android:checked="@{viewmodel.showTafseer}"
+                android:layout_width="wrap_content"
+                android:onClick="@{()-> viewmodel.updateRadioButtons(1)}"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:text="@string/translaion"
+                android:layout_weight="1"
+                android:checked="@{viewmodel.showTranslation}"
+                android:layout_marginStart="5dp"
+                android:layout_width="wrap_content"
+                android:onClick="@{()-> viewmodel.updateRadioButtons(2)}"
+                android:layout_height="wrap_content" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/txtJuz"
+            android:text="@{viewmodel.txtJuz}"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.CardView
+            android:visibility="@{!viewmodel.showProgress ? View.VISIBLE : View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ayaLayout"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txtView"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.txtAyah}"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:textSize="20sp"
+                    android:textColor="#000"/>
+
+                <TextView
+                    android:text="@{viewmodel.txtTranslation}"
+                    android:textAlignment="center"
+                    android:textColor="#9f4c03"
+                    android:visibility="@{viewmodel.showTranslation ? View.VISIBLE : View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txtTafseer"
+                    android:textColor="#067"
+                    android:text="@{viewmodel.txtTafseer}"
+                    android:textAlignment="center"
+                    android:visibility="@{viewmodel.showTafseer ? View.VISIBLE : View.GONE}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
+
+        </android.support.v7.widget.CardView>
+
+        <ProgressBar
+            android:visibility="@{viewmodel.showProgress ? View.VISIBLE : View.GONE}"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
 
+        <Button
+            android:id="@+id/btnPrev"
+            android:text="prev"
+            android:onClick="@{()-> viewmodel.prev()}"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnNext"
-        android:text="next"
-        android:layout_alignParentBottom="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnNext"
+            android:text="next"
+            android:onClick="@{()-> viewmodel.next()}"
+            android:enabled="@{!viewmodel.showProgress}"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignStart="@id/btnPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/txtBottom"
-        android:text="bottom"
-        android:layout_above="@id/btnNext"
-        android:layout_centerHorizontal="true"
-        android:lines="1"
-        android:ellipsize="end"
-        app:layout_constraintBottom_toBottomOf="@id/txtView"
-        app:layout_constraintLeft_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <ImageButton
+            android:src="@{viewmodel.isPlaying ? R.drawable.baseline_pause_black_24 : R.drawable.baseline_play_arrow_black_24}"
+            android:layout_width="wrap_content"
+            android:onClick="@{()-> viewmodel.togglePlay()}"
+            android:layout_above="@id/btnNext"
+            android:layout_centerHorizontal="true"
+            android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:src="@{!viewmodel.withSound ? R.drawable.baseline_volume_up_black_24 : R.drawable.baseline_volume_off_black_24}"
+            android:layout_width="wrap_content"
+            android:layout_above="@id/btnNext"
+            android:layout_alignParentEnd="true"
+            android:enabled="@{!viewmodel.showProgress}"
+            android:onClick="@{()-> viewmodel.toggleSound()}"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</layout>

@@ -1,7 +1,13 @@
 package com.amarnehsoft.holyquran.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+@Entity
 public class Surah {
+    @PrimaryKey
     private int number;
+
     private String name;
     private String englishName;
     private String englishNameTranslation;
