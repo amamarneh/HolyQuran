@@ -100,32 +100,35 @@ public abstract class AyaAdapter {
             return null;
         }
 
-        firstAyaHolder.release();
-        arr.removeAt(arr.indexOfValue(firstAyaHolder));
+        if (firstAyaHolder != null){
+            firstAyaHolder.release();
+            arr.removeAt(arr.indexOfValue(firstAyaHolder));
 
-        int number = firstAyaHolder.getAya().getNumber() + maxSize;
+            int number = firstAyaHolder.getAya().getNumber() + maxSize;
 
-        if (arr.get(number) == null && number <= Constants.LAST_AYA_NUMBER){
-            getAya(number)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableSingleObserver<Aya>() {
-                        @Override
-                        public void onSuccess(Aya aya) {
-                            arr.put(number, new AyaHolder(aya, onCompletionListener, withSound));
-                        }
+            if (arr.get(number) == null && number <= Constants.LAST_AYA_NUMBER){
+                getAya(number)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DisposableSingleObserver<Aya>() {
+                            @Override
+                            public void onSuccess(Aya aya) {
+                                arr.put(number, new AyaHolder(aya, onCompletionListener, withSound));
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            AyaAdapter.this.onError(e.getMessage());
-                        }
-                    });
-        }
-        try {
-            return arr.valueAt(0);
-        }catch (ClassCastException e){
-            e.printStackTrace();
+                            @Override
+                            public void onError(Throwable e) {
+                                AyaAdapter.this.onError(e.getMessage());
+                            }
+                        });
+            }
+            try {
+                return arr.valueAt(0);
+            }catch (ClassCastException e){
+                e.printStackTrace();
+                return null;
+            }
+        }else
             return null;
-        }
     }
 
     public abstract void queueIsInitialized(AyaHolder ayaHolder);

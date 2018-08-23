@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "514196763505",
+    "firebase_url": "https://holyquran-78ee9.firebaseio.com",
+    "project_id": "holyquran-78ee9",
+    "storage_bucket": "holyquran-78ee9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514196763505:android:4788b8d3aab97958",
+        "android_client_info": {
+          "package_name": "com.amarnehsoft.holyquran"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514196763505-spfcsef69uaslr9vlrsv8c0o7pqkijja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amarnehsoft.holyquran",
+            "certificate_hash": "2f0dd83ea9067c1307f3ecb9a0ae97b3bb7ccbb5"
+          }
+        },
+        {
+          "client_id": "514196763505-g4va69qa64a0ft4fcenrael8clfjjdel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPr7a6s58mUJiKKHZ10IEjyxPDXti7u6w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514196763505-g4va69qa64a0ft4fcenrael8clfjjdel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

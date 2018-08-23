@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 
 import com.amarnehsoft.holyquran.BuildConfig;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
@@ -25,6 +27,7 @@ public class App extends Application implements HasActivityInjector, HasSupportF
     public void onCreate() {
         super.onCreate();
 
+
         DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build()
@@ -33,6 +36,8 @@ public class App extends Application implements HasActivityInjector, HasSupportF
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        Fabric.with(this, new Crashlytics());
     }
 
     @Override
