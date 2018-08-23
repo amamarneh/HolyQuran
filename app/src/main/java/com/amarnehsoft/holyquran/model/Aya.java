@@ -19,7 +19,8 @@ public class Aya{
     private int page;
     private int ruku;
     private int hizbQuarter;
-    private String sajda;
+    @Ignore
+    private Object sajda;
 
     @Ignore
     private Surah surah;
@@ -94,11 +95,11 @@ public class Aya{
         this.hizbQuarter = hizbQuarter;
     }
 
-    public String getSajda() {
+    public Object getSajda() {
         return sajda;
     }
 
-    public void setSajda(String sajda) {
+    public void setSajda(Object sajda) {
         this.sajda = sajda;
     }
 
