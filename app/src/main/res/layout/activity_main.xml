@@ -14,182 +14,296 @@
     </data>
 
     <RelativeLayout
+        android:background="@color/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtSurah"
-            android:text="@{viewmodel.txtSurah}"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="10dp"
-            android:textStyle="bold"
-            android:onClick="@{()-> viewmodel.showChaptersList()}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <LinearLayout
-            android:id="@+id/ayaNumberLayout"
-            android:onClick="@{()-> viewmodel.showVersesList()}"
-            android:gravity="center"
+            android:id="@+id/basicLayout"
             android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:text="@string/ayah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/txtNumberInSurah"
-                android:text="@{viewmodel.txtAyahNumber}"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#a00"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <RadioGroup
-            android:orientation="horizontal"
-            android:layout_below="@id/ayaNumberLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:weightSum="3"
-            android:layout_height="wrap_content">
-
-            <RadioButton
-                android:text="@string/text"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:checked="@{!viewmodel.showTafseer &amp;&amp; !viewmodel.showTranslation}"
-                android:onClick="@{()-> viewmodel.updateRadioButtons(0)}"
-                android:layout_height="wrap_content" />
-
-            <RadioButton
-                android:layout_marginStart="5dp"
-                android:text="@string/tafseer"
-                android:layout_weight="1"
-                android:checked="@{viewmodel.showTafseer}"
-                android:layout_width="wrap_content"
-                android:onClick="@{()-> viewmodel.updateRadioButtons(1)}"
-                android:layout_height="wrap_content" />
-
-            <RadioButton
-                android:text="@string/translaion"
-                android:layout_weight="1"
-                android:checked="@{viewmodel.showTranslation}"
-                android:layout_marginStart="5dp"
-                android:layout_width="wrap_content"
-                android:onClick="@{()-> viewmodel.updateRadioButtons(2)}"
-                android:layout_height="wrap_content" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/txtJuz"
-            android:text="@{viewmodel.txtJuz}"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <android.support.v7.widget.CardView
-            android:visibility="@{!viewmodel.showProgress ? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
-            android:layout_centerInParent="true"
             android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/ayaLayout"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground"
+            <android.support.design.widget.AppBarLayout
+                app:elevation="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/txtView"
-                    android:padding="10dp"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    android:layout_height="wrap_content"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:textColor="@android:color/white"
+                            android:textSize="20sp"
+                            android:textStyle="normal"
+                            android:id="@+id/tvTitle"
+                            android:text="@string/app_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </android.support.v7.widget.Toolbar>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewmodel.txtAyah}"
+                    app:tabIndicatorColor="@android:color/white"
+                    app:tabSelectedTextColor="@android:color/white">
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/text" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tafseer" />
+
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/translation" />
+                </android.support.design.widget.TabLayout>
+
+            </android.support.design.widget.AppBarLayout>
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:id="@+id/txtJuz"
+                    android:text="@{viewmodel.txtJuz}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:id="@+id/ayaNumberLayout"
+
                     android:gravity="center"
-                    android:textStyle="italic"
-                    android:textSize="20sp"
-                    android:textColor="#000"/>
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="@{viewmodel.txtTranslation}"
+                    <android.support.design.button.MaterialButton
+                        app:cornerRadius="8dp"
+                        style="@style/Base.Widget.AppCompat.Button"
+                        app:backgroundTint="@color/colorAccent"
+                        android:id="@+id/txtNumberInSurah"
+                        android:text="@{viewmodel.txtAyahNumber}"
+                        android:onClick="@{()-> viewmodel.showVersesList()}"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <android.support.design.button.MaterialButton
+                    app:cornerRadius="8dp"
+                    style="@style/Base.Widget.AppCompat.Button"
+                    app:backgroundTint="@color/colorAccent"
                     android:textAlignment="center"
-                    android:textColor="#9f4c03"
-                    android:visibility="@{viewmodel.showTranslation ? View.VISIBLE : View.GONE}"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txtSurah"
+                    android:text="@{viewmodel.txtSurah}"
+                    android:textStyle="bold"
+                    android:onClick="@{()-> viewmodel.showChaptersList()}"
+                    android:layout_width="0dp"
+                    android:textColor="@android:color/white"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/txtTafseer"
-                    android:textColor="#067"
-                    android:text="@{viewmodel.txtTafseer}"
-                    android:textAlignment="center"
-                    android:visibility="@{viewmodel.showTafseer ? View.VISIBLE : View.GONE}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
+
             </LinearLayout>
+            <RadioGroup
+                android:visibility="gone"
+                android:id="@+id/radios"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:weightSum="3"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:text="@string/text"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="@{!viewmodel.showTafseer &amp;&amp; !viewmodel.showTranslation}"
+                    android:onClick="@{()-> viewmodel.updateRadioButtons(0)}"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:layout_marginStart="5dp"
+                    android:text="@string/tafseer"
+                    android:layout_weight="1"
+                    android:checked="@{viewmodel.showTafseer}"
+                    android:layout_width="wrap_content"
+                    android:onClick="@{()-> viewmodel.updateRadioButtons(1)}"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:text="@string/translaion"
+                    android:layout_weight="1"
+                    android:checked="@{viewmodel.showTranslation}"
+                    android:layout_marginStart="5dp"
+                    android:layout_width="wrap_content"
+                    android:onClick="@{()-> viewmodel.updateRadioButtons(2)}"
+                    android:layout_height="wrap_content" />
 
 
 
-        </android.support.v7.widget.CardView>
-
-        <ProgressBar
-            android:visibility="@{viewmodel.showProgress ? View.VISIBLE : View.GONE}"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            </RadioGroup>
 
 
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnPrev"
-            android:text="prev"
-            android:onClick="@{()-> viewmodel.prev()}"
-            android:enabled="@{!viewmodel.showProgress}"
+        <LinearLayout
+            android:layout_above="@+id/controlLayout"
+            android:layout_below="@+id/basicLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.CardView
+                        app:cardCornerRadius="8dp"
+                        android:visibility="@{!viewmodel.showProgress ? View.VISIBLE : View.GONE}"
+                        android:layout_width="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_centerInParent="true"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:padding="8dp"
+                            android:id="@+id/ayaLayout"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:background="?attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/txtView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.txtAyah}"
+                                android:gravity="center"
+                                android:textStyle="italic"
+                                android:textSize="20sp"
+                                android:textColor="#000"/>
+
+                            <TextView
+                                android:layout_marginTop="8dp"
+                                android:text="@{viewmodel.txtTranslation}"
+                                android:textAlignment="center"
+                                android:textColor="#9f4c03"
+                                android:visibility="@{viewmodel.showTranslation ? View.VISIBLE : View.GONE}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_marginTop="8dp"
+                                android:id="@+id/txtTafseer"
+                                android:textColor="#067"
+                                android:text="@{viewmodel.txtTafseer}"
+                                android:textAlignment="center"
+                                android:visibility="@{viewmodel.showTafseer ? View.VISIBLE : View.GONE}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+
+
+                    </android.support.v7.widget.CardView>
+
+                    <ProgressBar
+                        android:visibility="@{viewmodel.showProgress ? View.VISIBLE : View.GONE}"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
+
+
+
+
+
+        <View
+            android:layout_above="@id/controlLayout"
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+        <LinearLayout
+            android:id="@+id/controlLayout"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnNext"
-            android:text="next"
-            android:onClick="@{()-> viewmodel.next()}"
-            android:enabled="@{!viewmodel.showProgress}"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignStart="@id/btnPrev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_weight="1"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:id="@+id/btnNext"
+                android:text="@string/next"
+                android:onClick="@{()-> viewmodel.next()}"
+                android:enabled="@{!viewmodel.showProgress}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
-        <ImageButton
-            android:src="@{viewmodel.isPlaying ? R.drawable.baseline_pause_black_24 : R.drawable.baseline_play_arrow_black_24}"
-            android:layout_width="wrap_content"
-            android:onClick="@{()-> viewmodel.togglePlay()}"
-            android:layout_above="@id/btnNext"
-            android:layout_centerHorizontal="true"
-            android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
-            android:layout_height="wrap_content" />
+            <ImageButton
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:src="@{viewmodel.isPlaying ? R.drawable.baseline_pause_black_24 : R.drawable.baseline_play_arrow_black_24}"
+                android:layout_width="wrap_content"
+                android:onClick="@{()-> viewmodel.togglePlay()}"
 
-        <ImageButton
-            android:src="@{!viewmodel.withSound ? R.drawable.baseline_volume_up_black_24 : R.drawable.baseline_volume_off_black_24}"
-            android:layout_width="wrap_content"
-            android:layout_above="@id/btnNext"
-            android:layout_alignParentEnd="true"
-            android:enabled="@{!viewmodel.showProgress}"
-            android:onClick="@{()-> viewmodel.toggleSound()}"
-            android:layout_height="wrap_content" />
+                android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
+                android:layout_height="wrap_content" />
+
+
+
+            <ImageButton
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:src="@{!viewmodel.withSound ? R.drawable.baseline_volume_up_black_24 : R.drawable.baseline_volume_off_black_24}"
+                android:layout_width="wrap_content"
+                android:enabled="@{!viewmodel.showProgress}"
+                android:onClick="@{()-> viewmodel.toggleSound()}"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_weight="1"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:id="@+id/btnPrev"
+                android:text="@string/prev"
+                android:onClick="@{()-> viewmodel.prev()}"
+                android:enabled="@{!viewmodel.showProgress}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+
 
 
     </RelativeLayout>

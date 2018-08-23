@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import timber.log.Timber;
 
 public class MainActivity extends InjectedActivity implements MainPresenter, ChaptersFragment.OnFragmentInteractionListener
 , VersesFragment.OnFragmentInteractionListener{
+
 
 
     @Inject
@@ -58,6 +61,30 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
         });
 
         viewModel.showTafseer.observe(this, aBoolean -> Timber.w("Amarneh, observe showTafseer="+aBoolean));
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0){
+                    viewModel.updateRadioButtons(0);
+                }else if (tab.getPosition() == 1){
+                    viewModel.updateRadioButtons(1);
+                }else if (tab.getPosition() == 2){
+                    viewModel.updateRadioButtons(2);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
