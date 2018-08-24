@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">HolyQuran</string>
-    <string name="juz">Juz</string>
+    <string name="juz">الجزء</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ayah">Ayah</string>
-    <string name="text">Text</string>
-    <string name="tafseer">Tafseer</string>
-    <string name="translaion">Translation</string>
+    <string name="ayah">آية</string>
+    <string name="text">نص</string>
+    <string name="tafseer">تفسير</string>
+    <string name="translaion">ترجمة</string>
+    <string name="next">التالي</string>
+    <string name="prev">السابق</string>
+    <string name="translation">ترجمة</string>
 </resources>

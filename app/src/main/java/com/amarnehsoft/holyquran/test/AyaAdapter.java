@@ -94,7 +94,7 @@ public abstract class AyaAdapter {
         AyaHolder firstAyaHolder = null;
         try {
             firstAyaHolder = arr.valueAt(0);
-        }catch (ClassCastException e){
+        }catch (Exception e){
             e.printStackTrace();
             return null;
         }

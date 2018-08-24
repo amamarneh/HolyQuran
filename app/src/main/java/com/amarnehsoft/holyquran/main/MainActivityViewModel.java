@@ -1,5 +1,6 @@
 package com.amarnehsoft.holyquran.main;
 
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -98,7 +99,7 @@ public class MainActivityViewModel extends ViewModel{
 
     private void updateUI(AyaHolder ayaHolder){
         txtAyah.postValue(ayaHolder.getAya().getText());
-        txtAyahNumber.postValue(String.valueOf(ayaHolder.getAya().getNumberInSurah()));
+        txtAyahNumber.postValue(resourceProvider.getString(R.string.ayah) +" " + String.valueOf(ayaHolder.getAya().getNumberInSurah()));
         txtSurah.postValue(ayaHolder.getAya().getSurah().getName());
         this.txtJuz.postValue(resourceProvider.getString(R.string.juz) + " " + String.valueOf(ayaHolder.getAya().getJuz()));
         txtTafseer.postValue(ayaHolder.getAya().getTafseer());
