@@ -40,7 +40,6 @@ public abstract class AyaAdapter {
         this.initialAyaNumber = initialAyaNumber;
         this.onCompletionListener = onCompletionListener;
         this.withSound = withSound;
-        Timber.w("Amarneh, withSound="+withSound);
 
         Flowable<Aya> flowable=null;
 
