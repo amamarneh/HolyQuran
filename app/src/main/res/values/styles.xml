@@ -13,4 +13,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+
+    <style name="AppTheme.Launcher">
+    <item name="android:windowBackground">@drawable/splsh_bg</item>
+     <item name="colorPrimaryDark">@android:color/white</item>
+    </style>
 </resources>
