@@ -14,6 +14,7 @@ public class SplashScreen extends Activity{
         super.onCreate(savedInstanceState);
         new Handler().postDelayed(()->{
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         },300);
     }
 }
