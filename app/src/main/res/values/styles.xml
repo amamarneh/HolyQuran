@@ -14,6 +14,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="AppTheme.Launcher">
+    <item name="android:windowBackground">@drawable/splsh_bg</item>
+     <item name="colorPrimaryDark">@android:color/white</item>
+    </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="colorAccent">#fff</item>
