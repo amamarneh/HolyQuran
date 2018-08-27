@@ -2,6 +2,8 @@ package com.amarnehsoft.holyquran.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 
 import com.amarnehsoft.holyquran.BuildConfig;
@@ -35,9 +37,9 @@ public class App extends Application implements HasActivityInjector, HasSupportF
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
+        }else {
+            Fabric.with(this, new Crashlytics());
         }
-
-        Fabric.with(this, new Crashlytics());
     }
 
     @Override
@@ -48,5 +50,11 @@ public class App extends Application implements HasActivityInjector, HasSupportF
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingFragmentInjector;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }
