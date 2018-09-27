@@ -1,16 +1,12 @@
 package com.amarnehsoft.holyquran.main;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.amarnehsoft.holyquran.R;
@@ -19,7 +15,9 @@ import com.amarnehsoft.holyquran.base.InjectedActivity;
 import com.amarnehsoft.holyquran.databinding.ActivityMainBinding;
 import com.amarnehsoft.holyquran.fragments.chapters.ChaptersFragment;
 import com.amarnehsoft.holyquran.fragments.verses.VersesFragment;
+import com.amarnehsoft.holyquran.main.readersFragment.ReadersFragment;
 import com.amarnehsoft.holyquran.model.Surah;
+import com.amarnehsoft.holyquran.test.Reader;
 
 import javax.inject.Inject;
 
@@ -30,7 +28,7 @@ import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends InjectedActivity implements MainPresenter, ChaptersFragment.OnFragmentInteractionListener
-, VersesFragment.OnFragmentInteractionListener{
+, VersesFragment.OnFragmentInteractionListener, ReadersFragment.OnFragmentInteractionListener {
 
 
 
@@ -52,7 +50,7 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
         viewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
         viewModel.init(this);
 
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setLifecycleOwner(this);
         binding.setViewmodel(viewModel);
@@ -157,4 +155,8 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
                 });
     }
 
+    @Override
+    public void resetAndPlay(Reader reader) {
+        viewModel.refresh();
+    }
 }

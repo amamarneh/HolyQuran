@@ -2,11 +2,13 @@ package com.amarnehsoft.holyquran.test;
 
 import android.media.MediaPlayer;
 
+import com.amarnehsoft.holyquran.main.readersFragment.ReaderController;
 import com.amarnehsoft.holyquran.model.Aya;
 
 import java.io.IOException;
 
 public class AyaHolder {
+
     private MediaPlayer mediaPlayer;
     private Aya aya;
 
@@ -16,7 +18,7 @@ public class AyaHolder {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnCompletionListener(onCompletionListener);
             try {
-                mediaPlayer.setDataSource(aya.getAudio());
+                mediaPlayer.setDataSource(getSoundUrl(aya.getNumber()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -27,6 +29,10 @@ public class AyaHolder {
                 e.printStackTrace();
             }
         }
+    }
+
+    private String getSoundUrl(int ayaNumber){
+        return "http://cdn.alquran.cloud/media/audio/ayah/" + ReaderController.getCurrentReader().getId() + "/" + ayaNumber;
     }
 
     public Aya getAya() {

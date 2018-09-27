@@ -1,6 +1,5 @@
 package com.amarnehsoft.holyquran.main;
 
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
@@ -43,7 +42,6 @@ public class MainActivityViewModel extends ViewModel{
         this.resourceProvider = resourceProvider;
         this.repo = repo;
         this.spController = spController;
-        //refresh();
     }
 
     private void newAdapter(int ayaNumber){

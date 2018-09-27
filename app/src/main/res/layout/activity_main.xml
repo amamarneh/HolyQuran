@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -256,7 +257,19 @@
 
 
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
+            android:layout_above="@id/divider"
+            android:layout_height="wrap_content">
 
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.amarnehsoft.holyquran.main.readersFragment.ReadersFragment"
+                android:id="@+id/readersFragment" />
+
+        </FrameLayout>
 
         <View
             android:layout_above="@id/controlLayout"
