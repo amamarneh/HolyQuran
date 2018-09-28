@@ -38,7 +38,7 @@ public class ReadersAdapter extends RecyclerView.Adapter<ReaderHolder> {
         Reader reader = readers.get(i);
         holder.txtName.setText(reader.getName());
         if (!TextUtils.isEmpty(reader.getImgUrl())){
-            Picasso.get().load(reader.getImgUrl()).transform(new CircleTransform()).into(holder.img);
+            Picasso.with(holder.itemView.getContext()).load(reader.getImgUrl()).transform(new CircleTransform()).into(holder.img);
         }
 
         holder.itemView.setOnClickListener(view -> {

@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.widget.Toast;
 
 import com.amarnehsoft.holyquran.R;
@@ -89,6 +92,8 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
 
             }
         });
+
+
     }
 
     @Override

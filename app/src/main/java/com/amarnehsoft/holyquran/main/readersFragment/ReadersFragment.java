@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.amarnehsoft.holyquran.R;
 import com.amarnehsoft.holyquran.test.Reader;
+import com.amarnehsoft.holyquran.utils.AnimUtils;
 import com.squareup.picasso.Picasso;
 
 public class ReadersFragment extends Fragment implements ReadersAdapter.Listener {
@@ -59,16 +60,15 @@ public class ReadersFragment extends Fragment implements ReadersAdapter.Listener
 
         adapter = new ReadersAdapter(getLayoutInflater(), this);
         recyclerView.setAdapter(adapter);
-
         updateView();
 
         return view;
     }
 
     private void updateView(){
-        txtReaderName.setText(ReaderController.getCurrentReader().getFullName());
+        txtReaderName.setText(getString(R.string.reader_name,   ReaderController.getCurrentReader().getFullName()));
         if (!TextUtils.isEmpty(ReaderController.getCurrentReader().getImgUrl())) {
-            Picasso.get().load(ReaderController.getCurrentReader().getImgUrl()).into(readerImg);
+            Picasso.with(getContext()).load(ReaderController.getCurrentReader().getImgUrl()).into(readerImg);
         }
     }
 

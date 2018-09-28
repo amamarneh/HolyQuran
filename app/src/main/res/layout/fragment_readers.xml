@@ -22,12 +22,8 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="@string/reader"
-            android:textColor="#000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:padding="4dp"
             android:id="@+id/txtReaderName"
             android:layout_marginStart="10dp"
             tools:text="Reader Name"

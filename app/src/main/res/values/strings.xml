@@ -11,4 +11,5 @@
     <string name="prev">السابق</string>
     <string name="translation">ترجمة</string>
     <string name="reader">القارئ</string>
+    <string name="reader_name" translatable="false">القارئ %s</string>
 </resources>
