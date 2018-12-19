@@ -35,13 +35,11 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="fbf6ff" />
+                                      <entry key="backgroundColor" value="161a28" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/Photos/ayat.png" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Documents/Photos/ayat_new.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="legacyIconShape" value="CIRCLE" />
                                       <entry key="outputName" value="ic_launcher_asset" />
-                                      <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>
                                 </PersistentState>

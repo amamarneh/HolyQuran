@@ -10,6 +10,8 @@ import android.support.design.widget.TabLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.amarnehsoft.holyquran.R;
@@ -21,6 +23,10 @@ import com.amarnehsoft.holyquran.fragments.verses.VersesFragment;
 import com.amarnehsoft.holyquran.main.readersFragment.ReadersFragment;
 import com.amarnehsoft.holyquran.model.Surah;
 import com.amarnehsoft.holyquran.test.Reader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -52,6 +58,11 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
 
         viewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
         viewModel.init(this);
+
+        //FULL SCREEN
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         //setContentView(R.layout.activity_main);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -92,6 +103,14 @@ public class MainActivity extends InjectedActivity implements MainPresenter, Cha
 
             }
         });
+
+//        Picasso.with(this)
+//                .load(R.drawable.bg1)
+//                .into(binding.mainImg);
+        Glide.with(this)
+                .load(R.drawable.bg1)
+                .transition(DrawableTransitionOptions.withCrossFade(1000))
+                .into(binding.mainImg);
 
 
     }
