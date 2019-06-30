@@ -12,4 +12,11 @@
     <string name="translation">ترجمة</string>
     <string name="reader">القارئ</string>
     <string name="reader_name" translatable="false">القارئ %s</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="fetching_from_network">Fetching From Network</string>
+    <string name="save_to_database">Save to database</string>
+    <string name="downloaded_successfully">Downloaded successfully</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

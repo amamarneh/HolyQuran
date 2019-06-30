@@ -8,30 +8,28 @@
             name="bean"
             type="com.amarnehsoft.holyquran.fragments.verses.VersesFragment.Item" />
 
-        <import type="java.lang.String" />
-
     </data>
 
-    <android.support.v7.widget.CardView
-        android:layout_margin="3dp"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp">
 
         <LinearLayout
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
             <TextView
-                android:text="@{String.valueOf(bean.ayaNumber)}"
-                android:gravity="center"
-                android:textStyle="bold"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{`` + bean.ayaNumber}"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </layout>

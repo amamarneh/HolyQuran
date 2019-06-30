@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.No" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -16,8 +17,8 @@
 
 
     <style name="AppTheme.Launcher">
-    <item name="android:windowBackground">@drawable/splsh_bg</item>
-     <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="android:windowBackground">@drawable/splsh_bg</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -25,4 +26,8 @@
         <item name="colorAccent">#fff</item>
 
     </style>
+
+    <style name="AppTheme.No.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.No.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

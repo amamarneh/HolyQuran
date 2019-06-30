@@ -1,333 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewmodel"
-            type="com.amarnehsoft.holyquran.main.MainActivityViewModel" />
-
-        <import type="android.view.View" />
-
-        <import type="com.amarnehsoft.holyquran.R" />
-
+            type="com.amarnehsoft.holyquran.main.TestViewModel" />
     </data>
 
     <RelativeLayout
-        android:background="@color/bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/basicLayout"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.AppBarLayout
-                app:elevation="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-                <android.support.v7.widget.Toolbar
-                    app:contentInsetStart="0dp"
-                    app:contentInsetEnd="0dp"
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="10dp">
+
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetStart="0dp"
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    android:layout_height="wrap_content"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
                     <LinearLayout
-                        android:gravity="center_horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+
                         <TextView
+                            android:id="@+id/tvTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:fontFamily="@font/nnu"
+                            android:text="@string/app_name"
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
-                            android:textStyle="normal"
-                            android:id="@+id/tvTitle"
-                            android:text="@string/app_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textStyle="normal" />
                     </LinearLayout>
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
 
-                <android.support.design.widget.TabLayout
-                    app:tabIndicatorHeight="4dp"
+                <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabIndicatorColor="@android:color/white"
+                    app:tabIndicatorHeight="4dp"
                     app:tabSelectedTextColor="@android:color/white">
 
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text" />
 
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tafseer" />
 
-                    <android.support.design.widget.TabItem
+                    <com.google.android.material.tabs.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
                         android:text="@string/translation" />
-                </android.support.design.widget.TabLayout>
+                </com.google.android.material.tabs.TabLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.2dp"
                     android:background="?android:attr/listDivider" />
 
-            </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
             <LinearLayout
-                android:layout_marginTop="4dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
                 <TextView
-                    android:textAlignment="center"
-                    android:layout_weight="1"
                     android:id="@+id/txtJuz"
-                    android:text="@{viewmodel.txtJuz}"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/juz"
+                    android:textAlignment="center" />
+
                 <LinearLayout
-                    android:layout_weight="1"
                     android:id="@+id/ayaNumberLayout"
-
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
-                    <android.support.design.button.MaterialButton
-                        app:cornerRadius="8dp"
-                        style="@style/Base.Widget.AppCompat.Button"
-                        app:backgroundTint="@color/colorAccent"
+                    <Button
                         android:id="@+id/txtNumberInSurah"
-                        android:text="@{viewmodel.txtAyahNumber}"
-                        android:onClick="@{()-> viewmodel.showVersesList()}"
-                        android:textColor="@android:color/white"
+                        style="@style/Base.Widget.AppCompat.Button"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        android:layout_height="wrap_content"
+                        android:text="aya number"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/colorAccent"
+                        app:cornerRadius="8dp" />
                 </LinearLayout>
-                <android.support.design.button.MaterialButton
-                    app:cornerRadius="8dp"
-                    style="@style/Base.Widget.AppCompat.Button"
-                    app:backgroundTint="@color/colorAccent"
-                    android:textAlignment="center"
-                    android:layout_weight="1"
+
+                <Button
                     android:id="@+id/txtSurah"
-                    android:text="@{viewmodel.txtSurah}"
-                    android:textStyle="bold"
-                    android:onClick="@{()-> viewmodel.showChaptersList()}"
+                    style="@style/Base.Widget.AppCompat.Button"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="sura"
+                    android:textAlignment="center"
                     android:textColor="@android:color/white"
-                    android:layout_height="wrap_content" />
-
-
-
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/colorAccent"
+                    app:cornerRadius="8dp" />
             </LinearLayout>
-            <RadioGroup
-                android:visibility="gone"
-                android:id="@+id/radios"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:weightSum="3"
-                android:layout_height="wrap_content">
 
-                <RadioButton
-                    android:text="@string/text"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="@{!viewmodel.showTafseer &amp;&amp; !viewmodel.showTranslation}"
-                    android:onClick="@{()-> viewmodel.updateRadioButtons(0)}"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:layout_marginStart="5dp"
-                    android:text="@string/tafseer"
-                    android:layout_weight="1"
-                    android:checked="@{viewmodel.showTafseer}"
-                    android:layout_width="wrap_content"
-                    android:onClick="@{()-> viewmodel.updateRadioButtons(1)}"
-                    android:layout_height="wrap_content" />
-
-                <RadioButton
-                    android:text="@string/translaion"
-                    android:layout_weight="1"
-                    android:checked="@{viewmodel.showTranslation}"
-                    android:layout_marginStart="5dp"
-                    android:layout_width="wrap_content"
-                    android:onClick="@{()-> viewmodel.updateRadioButtons(2)}"
-                    android:layout_height="wrap_content" />
-
-
-
-            </RadioGroup>
-
-
+            <FrameLayout
+                android:id="@+id/fragmentContainer"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_above="@+id/readersLayout"
-            android:layout_below="@+id/basicLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/basicLayout">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <RelativeLayout
-
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
-                    <android.support.v7.widget.CardView
-                        app:cardCornerRadius="8dp"
-                        android:visibility="@{!viewmodel.showProgress ? View.VISIBLE : View.GONE}"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_height="wrap_content">
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="8dp">
 
                         <LinearLayout
-                            android:padding="8dp"
                             android:id="@+id/ayaLayout"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            android:background="?attr/selectableItemBackground"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackground"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/txtView"
+                                android:id="@+id/aya"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{viewmodel.txtAyah}"
                                 android:gravity="center"
-                                android:textStyle="italic"
+                                android:textColor="@color/black"
                                 android:textSize="20sp"
-                                android:textColor="@color/black"/>
+                                android:textStyle="italic" />
 
                             <TextView
-                                android:layout_marginTop="8dp"
-                                android:text="@{viewmodel.txtTranslation}"
-                                android:textAlignment="center"
-                                android:textColor="#9f4c03"
-                                android:visibility="@{viewmodel.showTranslation ? View.VISIBLE : View.GONE}"
+                                android:id="@+id/translation"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="#9f4c03" />
 
                             <TextView
-                                android:layout_marginTop="8dp"
                                 android:id="@+id/txtTafseer"
-                                android:textColor="#067"
-                                android:text="@{viewmodel.txtTafseer}"
-                                android:textAlignment="center"
-                                android:visibility="@{viewmodel.showTafseer ? View.VISIBLE : View.GONE}"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textAlignment="center"
+                                android:textColor="#067" />
                         </LinearLayout>
-
-
-
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
                     <ProgressBar
-                        android:visibility="@{viewmodel.showProgress ? View.VISIBLE : View.GONE}"
-                        android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone" />
                 </RelativeLayout>
             </ScrollView>
-
         </LinearLayout>
 
-
-
-
-        <FrameLayout
-            android:id="@+id/readersLayout"
-            android:layout_width="match_parent"
-            android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
-            android:layout_above="@id/divider"
-            android:layout_height="wrap_content">
-
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:name="com.amarnehsoft.holyquran.main.readersFragment.ReadersFragment"
-                android:id="@+id/readersFragment" />
-
-        </FrameLayout>
-
         <View
-            android:layout_above="@id/controlLayout"
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_above="@id/controlLayout"
             android:background="?android:attr/listDivider" />
+
         <LinearLayout
             android:id="@+id/controlLayout"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
             <Button
-                android:layout_weight="1"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:id="@+id/btnNext"
-                android:text="@string/next"
-                android:onClick="@{()-> viewmodel.next()}"
-                android:enabled="@{!viewmodel.showProgress}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <ImageButton
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:src="@{viewmodel.isPlaying ? R.drawable.baseline_pause_black_24 : R.drawable.baseline_play_arrow_black_24}"
                 android:layout_width="wrap_content"
-                android:onClick="@{()-> viewmodel.togglePlay()}"
-
-                android:visibility="@{!viewmodel.showProgress &amp;&amp; viewmodel.withSound != null &amp;&amp; viewmodel.withSound ? View.VISIBLE : View.GONE}"
-                android:layout_height="wrap_content" />
-
-
-
-            <ImageButton
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:src="@{!viewmodel.withSound ? R.drawable.baseline_volume_up_black_24 : R.drawable.baseline_volume_off_black_24}"
-                android:layout_width="wrap_content"
-                android:enabled="@{!viewmodel.showProgress}"
-                android:onClick="@{()-> viewmodel.toggleSound()}"
-                android:layout_height="wrap_content" />
-            <Button
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:text="@string/next" />
+
+            <Button
                 android:id="@+id/btnPrev"
-                android:text="@string/prev"
-                android:onClick="@{()-> viewmodel.prev()}"
-                android:enabled="@{!viewmodel.showProgress}"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/prev" />
         </LinearLayout>
-
-
-
-
-
-
     </RelativeLayout>
-
 </layout>
