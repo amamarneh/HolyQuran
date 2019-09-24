@@ -2,7 +2,6 @@ package com.amarnehsoft.holyquran.network.quran
 
 import com.amarnehsoft.holyquran.network.response.ApiResponse
 
-import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,14 +14,14 @@ import retrofit2.http.Path
 interface QuranApi {
 
     @GET("surah")
-    fun surahsList(): Deferred<Response<ApiResponse<List<Quran.Surah>>>>
+    suspend fun surahsList(): Response<ApiResponse<List<Quran.Surah>>>
 
     @GET("ayah/{ayahNumber}/ar.Alafasy")
-    fun getAyah(@Path("ayahNumber") ayahNumber: Int): Deferred<Response<ApiResponse<Quran.Ayah>>>
+    suspend fun getAyah(@Path("ayahNumber") ayahNumber: Int): Response<ApiResponse<Quran.Ayah>>
 
     @GET("ayah/{ayaNumber}/en.asad")
-    fun translateAya(@Path("ayaNumber") ayaNumber: Int): Deferred<Response<ApiResponse<Quran.Ayah>>>
+    suspend fun translateAya(@Path("ayaNumber") ayaNumber: Int): Response<ApiResponse<Quran.Ayah>>
 
     @GET("v1/quran/quran-uthmani")
-    fun getQuran(): Deferred<Response<ApiResponse<Quran>>>
+    suspend fun getQuran(): Response<ApiResponse<Quran>>
 }

@@ -4,8 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.amarnehsoft.holyquran.utils.CoroutinesDispatcherProvider
 import kotlinx.coroutines.*
 
-abstract class BaseViewModel(private val dispatcherProvider: CoroutinesDispatcherProvider) :
-    ViewModel() {
+abstract class BaseViewModel(private val dispatcherProvider: CoroutinesDispatcherProvider) : ViewModel() {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 

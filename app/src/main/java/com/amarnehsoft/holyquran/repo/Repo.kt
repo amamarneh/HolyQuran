@@ -8,6 +8,7 @@ import com.amarnehsoft.holyquran.db.AyahMapper
 import com.amarnehsoft.holyquran.model.Result
 import com.amarnehsoft.holyquran.model.Surah
 import com.amarnehsoft.holyquran.network.RemoteDataSource
+import com.amarnehsoft.holyquran.network.n.RemoteResponse
 import com.amarnehsoft.holyquran.network.quran.Quran
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.GlobalScope
@@ -20,9 +21,9 @@ import javax.inject.Singleton
 
 @Singleton
 class Repo @Inject constructor(
-    private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
-    private val spController: SPController
+        private val remoteDataSource: RemoteDataSource,
+        private val localDataSource: LocalDataSource,
+        private val spController: SPController
 ) {
 
     private val ayaCache = HashMap<Int, Quran.Ayah>() // ayaNumber, aya
@@ -39,33 +40,33 @@ class Repo @Inject constructor(
             Timber.i("time elapsed for get quran from remote data source = ${System.currentTimeMillis() - startTime} ms.")
 
             when (result) {
-                is Result.Success -> {
+                is RemoteResponse.Success -> {
                     response.postValue(GetQuranResult.SaveToDatabase)
 
-                    val surahsList = result.data.surahs
+                    val surahsList = result.body.surahs
                     val ayasList = surahsList.flatMap { surah ->
                         surah.ayahs.map {
                             AyahMapper.map(it, surah.number)
                         }
                     }
                     localDataSource.insertChaptersAndVerses(
-                        chapters = surahsList.map {
-                            Surah(
-                                it.number,
-                                it.name,
-                                it.englishName,
-                                it.englishNameTranslation,
-                                it.ayahs.size,
-                                it.revelationType
-                            )
-                        },
-                        verses = ayasList
+                            chapters = surahsList.map {
+                                Surah(
+                                        it.number,
+                                        it.name,
+                                        it.englishName,
+                                        it.englishNameTranslation,
+                                        it.ayahs.size,
+                                        it.revelationType
+                                )
+                            },
+                            verses = ayasList
                     )
                     spController.isQuranDownloaded = true
                     response.postValue(GetQuranResult.Success)
                 }
-                is Result.Error -> {
-                    response.postValue(GetQuranResult.Error(result.exception))
+                is RemoteResponse.Error -> {
+                    response.postValue(GetQuranResult.Error(result.error))
                 }
             }
         }
@@ -77,7 +78,7 @@ class Repo @Inject constructor(
     suspend fun chaptersList(): Result<List<Surah>> {
         val listFromDB = getFromDB { localDataSource.getChaptersList() }
         return if (listFromDB.size != 114) {
-            val result = remoteDataSource.getChaptersList()
+            val result = remoteDataSource.getChaptersList().toResult()
             withContext(IO) {
                 launch {
                     if (result is Result.Success) {
@@ -92,10 +93,10 @@ class Repo @Inject constructor(
     }
 
     suspend fun getAya(number: Int): Quran.Ayah = (ayaCache[number] ?: getAyaFromDB(number))
-        ?: throw RuntimeException("Can't find aya:$number in cache nor in database.")
+            ?: throw RuntimeException("Can't find aya:$number in cache nor in database.")
 
     private suspend fun getAyaFromApi(number: Int): Result<Quran.Ayah> {
-        val aya = remoteDataSource.getAyah(number)
+        val aya = remoteDataSource.getAyah(number).toResult()
 //            .map {
 //            it.apply {
 //                surah?.let {
@@ -158,4 +159,18 @@ class Repo @Inject constructor(
             callback()
         }
     }
+
+    private fun <T : Any, E> RemoteResponse<T, E>.toResult(remoteError: (E) -> Exception): Result<T> {
+        return when (this) {
+            is RemoteResponse.Success -> Result.Success(this.body)
+            is RemoteResponse.Error -> Result.Error(remoteError(this.error))
+        }
+    }
+
+    fun <T : Any> RemoteResponse<T, Exception>.toResult(): Result<T> {
+        return toResult {
+            it
+        }
+    }
+
 }

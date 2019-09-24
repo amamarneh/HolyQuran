@@ -1,12 +1,10 @@
 package com.amarnehsoft.holyquran.base
 
 import android.app.Activity
+import android.app.Application
 import androidx.fragment.app.Fragment
-import androidx.multidex.MultiDexApplication
 
 import com.amarnehsoft.holyquran.BuildConfig
-import com.amarnehsoft.holyquran.Test
-
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
 import javax.inject.Inject
@@ -16,7 +14,7 @@ import dagger.android.HasActivityInjector
 import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
 
-class App : MultiDexApplication(), HasActivityInjector, HasSupportFragmentInjector {
+class App : Application(), HasActivityInjector, HasSupportFragmentInjector {
 
     @Inject
     lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>

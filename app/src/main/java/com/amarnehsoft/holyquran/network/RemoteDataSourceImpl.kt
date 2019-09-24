@@ -1,131 +1,192 @@
 package com.amarnehsoft.holyquran.network
 
-import com.amarnehsoft.holyquran.model.Result
 import com.amarnehsoft.holyquran.model.Surah
 import com.amarnehsoft.holyquran.model.TafseerAyah
+import com.amarnehsoft.holyquran.network.n.RemoteError
+import com.amarnehsoft.holyquran.network.n.RemoteResponse
 import com.amarnehsoft.holyquran.network.quran.Quran
 import com.amarnehsoft.holyquran.network.quran.QuranApi
 import com.amarnehsoft.holyquran.network.tafseer.Tafseer
 import com.amarnehsoft.holyquran.network.tafseer.TafseerApi
-import com.amarnehsoft.holyquran.utils.safeApiCall
-import java.io.IOException
+import retrofit2.Response
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
-    private val quranApi: QuranApi,
-    private val tafseerApiService: TafseerApi
+        private val quranApi: QuranApi,
+        private val tafseerApiService: TafseerApi
 ) : RemoteDataSource {
 
-    override suspend fun getTafseerList(): Result<List<Tafseer>> {
-        return safeApiCall(
-            call = { getTafseerListResult() },
-            errorMessage = "can't get tafseer list"
-        )
-    }
-
-    private suspend fun getTafseerListResult(): Result<List<Tafseer>> {
-        val response = tafseerApiService.getTafseerList().await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!)
-        } else {
-            Result.Error(IOException("can't get quran!!"))
+    override suspend fun getTafseerList(): RemoteResponse<List<Tafseer>, Exception> {
+        return safeApiCallAllowEmptyResponses(
+                response = tafseerApiService.getTafseerList(),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<List<Tafseer>?, Exception>(it)
+                },
+                remoteError = {
+                    it.asException()
+                }
+        ).map {
+            it.orEmpty()
         }
     }
 
-    override suspend fun getQuran(): Result<Quran> {
+    override suspend fun getQuran(): RemoteResponse<Quran, Exception> {
         return safeApiCall(
-            call = { getQuranResult() },
-            errorMessage = "can't get quran"
+                response = quranApi.getQuran(),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<Quran, Exception>(it.data)
+                },
+                remoteError = {
+                    it.asException()
+                }
         )
     }
 
-    private suspend fun getQuranResult(): Result<Quran> {
-        val response = quranApi.getQuran().await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!.data)
-        } else {
-            Result.Error(IOException("can't get quran!!"))
-        }
-    }
-
-    override suspend fun getAyah(ayahNumber: Int): Result<Quran.Ayah> {
+    override suspend fun getAyah(ayahNumber: Int): RemoteResponse<Quran.Ayah, Exception> {
         return safeApiCall(
-            call = { getAyaResult(ayahNumber) },
-            errorMessage = "can't get aya from remoteDataSource!"
+                response = quranApi.getAyah(ayahNumber),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<Quran.Ayah, Exception>(it.data)
+                },
+                remoteError = {
+                    it.asException()
+                }
         )
     }
 
-    override suspend fun translateAya(ayaNumber: Int): Result<Quran.Ayah> {
+    override suspend fun translateAya(ayaNumber: Int): RemoteResponse<Quran.Ayah, Exception> {
         return safeApiCall(
-            call = { translateAyaResult(ayaNumber) },
-            errorMessage = "can't translate aya"
+                response = quranApi.translateAya(ayaNumber),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<Quran.Ayah, Exception>(it.data)
+                },
+                remoteError = {
+                    it.asException()
+                }
         )
     }
 
-    override suspend fun getChaptersList(): Result<List<Surah>> {
+    override suspend fun getChaptersList(): RemoteResponse<List<Surah>, Exception> {
         return safeApiCall(
-            call = { getChaptersListResult() },
-            errorMessage = "can't get chapters list!!"
+                response = quranApi.surahsList(),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<List<Surah>, Exception>(
+                            it.data.map {
+                                Surah(
+                                        it.number,
+                                        it.name,
+                                        it.englishName,
+                                        it.englishNameTranslation,
+                                        it.ayahs.size,
+                                        it.revelationType
+                                )
+                            }
+                    )
+                },
+                remoteError = {
+                    it.asException()
+                }
         )
     }
 
     override suspend fun tafseerAyah(
-        tafseer_id: Int,
-        sura_number: Int,
-        ayah_number: Int
-    ): Result<TafseerAyah> {
+            tafseer_id: Int,
+            sura_number: Int,
+            ayah_number: Int
+    ): RemoteResponse<TafseerAyah, Exception> {
         return safeApiCall(
-            call = { tafseerAyaResult(tafseer_id, sura_number, ayah_number) },
-            errorMessage = "can't get tafseer aya"
+                response = tafseerApiService.tafseerAyah(tafseer_id, sura_number, ayah_number),
+                bodyToRemote = {
+                    RemoteResponse.createSuccess<TafseerAyah, Exception>(it)
+                },
+                remoteError = {
+                    it.asException()
+                }
         )
     }
 
-    private suspend fun getAyaResult(ayaNumber: Int): Result<Quran.Ayah> {
-        val response = quranApi.getAyah(ayaNumber).await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!.data)
+    private fun <T, R, E> Response<T>.toRemoteResponse(
+            bodyToRemote: (T) -> RemoteResponse<R, E>,
+            remoteError: (error: RemoteError) -> E
+    ): RemoteResponse<R, E> {
+        return if (isSuccessful) {
+            val body = body()
+            if (body == null) {
+                RemoteResponse.createError(remoteError(RemoteError.general(Exception("empty response"))))
+            } else {
+                bodyToRemote(body)
+            }
         } else {
-            Result.Error(IOException("can't get aya, ayaNumber: $ayaNumber"))
+            RemoteResponse.createError(remoteError(RemoteError.Failed(code())))
         }
     }
 
-    private suspend fun translateAyaResult(ayaNumber: Int): Result<Quran.Ayah> {
-        val response = quranApi.translateAya(ayaNumber).await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!.data)
+    private fun <T, R, E> Response<T>.toRemoteResponseAllowEmptyResponses(
+            bodyToRemote: (T?) -> RemoteResponse<R?, E>,
+            remoteError: (error: RemoteError) -> E
+    ): RemoteResponse<R?, E> {
+        return if (isSuccessful) {
+            val body = body()
+            if (body == null) {
+                RemoteResponse.createSuccess<R?, E>(null)
+            } else {
+                bodyToRemote(body)
+            }
         } else {
-            Result.Error(IOException("can't translate aya, ayaNumber: $ayaNumber"))
+            RemoteResponse.createError(remoteError(RemoteError.Failed(code())))
         }
     }
 
-    private suspend fun getChaptersListResult(): Result<List<Surah>> {
-        val response = quranApi.surahsList().await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!.data.map {
-                Surah(
-                    it.number,
-                    it.name,
-                    it.englishName,
-                    it.englishNameTranslation,
-                    it.ayahs.size,
-                    it.revelationType
-                )
-            })
-        } else {
-            Result.Error(IOException("can't get chapters list"))
+    private fun <T, R, E> safeApiCall(
+            response: Response<T>,
+            bodyToRemote: (T) -> RemoteResponse<R, E>,
+            remoteError: (RemoteError) -> E
+    ): RemoteResponse<R, E> {
+        return try {
+            response.toRemoteResponse(
+                    bodyToRemote = {
+                        bodyToRemote(it)
+                    },
+                    remoteError = remoteError
+            )
+        } catch (e: Exception) {
+            RemoteResponse.createError(remoteError(RemoteError.General(e)))
         }
     }
 
-    private suspend fun tafseerAyaResult(
-        tafseerId: Int,
-        surahNumber: Int,
-        ayaNumber: Int
-    ): Result<TafseerAyah> {
-        val response = tafseerApiService.tafseerAyah(tafseerId, surahNumber, ayaNumber).await()
-        return if (response.isSuccessful && response.body() != null) {
-            Result.Success(response.body()!!)
-        } else {
-            Result.Error(IOException("can't get tafseer aya, ayaNumber: $ayaNumber"))
+    private fun <T, R, E> safeApiCallAllowEmptyResponses(
+            response: Response<T>,
+            bodyToRemote: (T?) -> RemoteResponse<R?, E>,
+            remoteError: (RemoteError) -> E
+    ): RemoteResponse<R?, E> {
+        return try {
+            response.toRemoteResponseAllowEmptyResponses(
+                    bodyToRemote = {
+                        bodyToRemote(it)
+                    },
+                    remoteError = remoteError
+            )
+        } catch (e: Exception) {
+            RemoteResponse.createError(remoteError(RemoteError.General(e)))
         }
     }
+
+//    private fun <R, E> RemoteResponse<R?, E>.notNullBody(emptyError: () -> E): RemoteResponse<R, E> {
+//        return when (this) {
+//            is RemoteSuccessResponse -> {
+//                if (this.body == null) {
+//                    RemoteResponse.createError(emptyError())
+//                } else {
+//                    RemoteResponse.createSuccess(this.body)
+//                }
+//            }
+//            is RemoteErrorResponse -> RemoteResponse.createError(this.error)
+//        }
+//    }
+//
+//    private fun <R> RemoteResponse<R?, Exception>.notNullBody(): RemoteResponse<R, Exception> {
+//        return notNullBody {
+//            Exception("body is null")
+//        }
+//    }
 }

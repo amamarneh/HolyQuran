@@ -6,7 +6,6 @@ import com.amarnehsoft.holyquran.di.Tafseer
 import com.amarnehsoft.holyquran.network.quran.QuranApi
 import com.amarnehsoft.holyquran.network.tafseer.TafseerApi
 import com.amarnehsoft.holyquran.utils.NetworkUtils
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 
 import javax.inject.Singleton
 
@@ -15,11 +14,8 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.xml.datatype.DatatypeConstants.SECONDS
-
 
 @Module
 class NetworkModule {
@@ -32,33 +28,30 @@ class NetworkModule {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
         return httpClient.connectTimeout(500, TimeUnit.SECONDS)
-            .readTimeout(500, TimeUnit.SECONDS).build()
+                .readTimeout(500, TimeUnit.SECONDS).build()
     }
 
     @Provides
     @Quran
     fun provideRetrofit(httpClient: OkHttpClient, @Quran baseUrl: String): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .build()
+                .baseUrl(baseUrl)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
     }
 
     @Provides
     @Tafseer
     fun provideTafseerRetrofit(
-        httpClient: OkHttpClient,
-        @Tafseer baseUrl: String
+            httpClient: OkHttpClient,
+            @Tafseer baseUrl: String
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
+                .baseUrl(baseUrl)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
     }
 
     @Provides
@@ -84,7 +77,6 @@ class NetworkModule {
     fun provideBaseUrlForTafseer(): String {
         return ServiceConstants.baseUrlForTafseer
     }
-
 
     @Provides
     @Singleton

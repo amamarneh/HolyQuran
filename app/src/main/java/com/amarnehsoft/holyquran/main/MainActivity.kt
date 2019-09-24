@@ -123,3 +123,11 @@ class MainActivity : AppCompatActivity(),
         }
     }
 }
+
+/**
+ *
+ * - Quran Not Downloaded -> show download quran layout.
+ * else show the last read aya.
+ *
+ *
+ */
